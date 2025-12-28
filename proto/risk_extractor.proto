@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package risk_extractor;
+
+service RiskExtractor {
+  rpc ExtractRisks(ExtractRisksRequest) returns (ExtractRisksResponse) {}
+}
+
+message ExtractRisksRequest {
+  string query = 1;
+  string user_id = 2;
+  int64 query_timestamp = 3;  // Unix timestamp
+  string space_url = 4;
+}
+
+message Risk {
+  string category = 1;
+  string summary = 2;
+}
+
+message ExtractRisksResponse {
+  repeated Risk risks = 1;
+  string source_document = 2;
+  int64 query_timestamp = 3;
+  int64 generation_timestamp = 4;
+  string user_id = 5;
+  string model_used = 6;
+  string audit_id = 7;  // UUID for tracing
+  string data_lineage = 8;  // JSON string of steps
+  string integrity_hash = 9;  // SHA-256 of output
+  string error_message = 10;  // If failed
+}

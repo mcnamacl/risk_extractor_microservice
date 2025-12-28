@@ -1,0 +1,29 @@
+import grpc
+import risk_extractor_pb2
+import risk_extractor_pb2_grpc
+import time
+import json
+
+def run():
+    with grpc.insecure_channel('localhost:50051') as channel:
+        stub = risk_extractor_pb2_grpc.RiskExtractorStub(channel)
+        request = risk_extractor_pb2.ExtractRisksRequest(
+            query="What are the risks in the report from 2022?",
+            user_id="user123",
+            query_timestamp=int(time.time()),
+            space_url="mcnamacl/tinyllama-inference"
+        )
+        response = stub.ExtractRisks(request)
+        print (f"Logging response: {response}")
+        if response.error_message:
+            print(f"Error: {response.error_message}")
+        else:
+            # Convert to JSON for output
+            output = {
+                "risks": [{"risk_category": r.category, "risk_summary": r.summary} for r in response.risks],
+                "source_document": response.source_document,
+            }
+            print(json.dumps(output, indent=2))
+
+if __name__ == '__main__':
+    run()
