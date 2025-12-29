@@ -20,7 +20,7 @@ def run():
         else:
             # Convert to JSON for output
             output = {
-                "risks": [{"risk_category": r.category, "risk_summary": r.summary} for r in response.risks],
+                "risks": [{"risk_categories": list(r.risk_categories), "risk_summary": r.risk_summary} for r in response.risks],
                 "source_document": response.source_document,
             }
             print(json.dumps(output, indent=2))

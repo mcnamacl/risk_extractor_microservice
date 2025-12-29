@@ -27,13 +27,12 @@ class RiskExtractorServicer(risk_extractor_pb2_grpc.RiskExtractorServicer):
             print(f"Logging all extracted risks: {all_risks}")
 
             merged = merge_risks(all_risks)
-            doc_name = "test_doc"
             provenanced = validate_and_add_provenance(merged, doc_name, request.query_timestamp, request.user_id, "finetuned-llm-v1.2")
             
             print(f"Logging provenanced output: {provenanced}")
 
             # Convert to proto response
-            risks_proto = [risk_extractor_pb2.Risk(category=r['risk_category'], summary=r['risk_summary']) for r in provenanced['risks']]
+            risks_proto = [risk_extractor_pb2.Risk(risk_categories=r['risk_categories'], risk_summary=r['risk_summary']) for r in provenanced['risks']]
             return risk_extractor_pb2.ExtractRisksResponse(
                 risks=risks_proto,
                 source_document=provenanced['source_document'],
@@ -51,7 +50,7 @@ class RiskExtractorServicer(risk_extractor_pb2_grpc.RiskExtractorServicer):
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     risk_extractor_pb2_grpc.add_RiskExtractorServicer_to_server(RiskExtractorServicer(), server)
-    server.add_insecure_port('[::]:50051')  # Use secure in prod (add_secure_port)
+    server.add_insecure_port('[::]:50051')
     server.start()
     server.wait_for_termination()
 

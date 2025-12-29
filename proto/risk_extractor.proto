@@ -14,8 +14,8 @@ message ExtractRisksRequest {
 }
 
 message Risk {
-  string category = 1;
-  string summary = 2;
+  repeated string risk_categories = 1;
+  string risk_summary = 2;
 }
 
 message ExtractRisksResponse {
