@@ -43,6 +43,115 @@ Key Features
 - Provenance: generation timestamps, audit id, data-lineage and a
 	SHA-256 integrity hash are returned with results.
 
+## Model Evaluation
+
+### Evaluation Setup
+
+The fine-tuned model was evaluated against the base TinyLlama (intermediate) model using **207 held-out examples** from the training dataset. These examples were not used during fine-tuning and were reserved exclusively for evaluation.
+
+All experiments were conducted on an **A100 GPU** to ensure consistent performance measurements.
+
+The task focuses on **financial risk extraction and abstraction**, where the objective is to generate **structured, semantically transformed outputs** rather than reproducing or paraphrasing the source text.
+
+### Metrics and Methodology
+
+Multiple complementary metrics were used to capture different aspects of model behaviour:
+
+- **Cosine similarity (embedding-based)**  
+  Used to quantify the degree of transformation between the input and the generated output.  
+  Lower similarity indicates greater abstraction and reduced copying.
+
+- **Ground-truth similarity**  
+  Generated outputs were compared against human-written ground-truth summaries and full outputs.
+
+- **Structured category extraction metrics**  
+  Precision, recall, F1 (micro), Jaccard similarity, and exact match rate were computed for extracted risk categories.
+
+- **Statistical significance testing**  
+  Paired t-tests and effect sizes were used to assess whether observed differences were statistically meaningful.
+
+- **Inference efficiency**  
+  Latency, throughput, and memory usage were measured to characterize deployment trade-offs.
+
+### Transformation Quality
+
+The base model exhibited **very high similarity to the input text (≈0.92)**, indicating that it primarily reproduced or lightly paraphrased the source content.
+
+The fine-tuned model produced outputs with **substantially lower similarity to the input**:
+
+- **Summary-level:** ≈0.55  
+- **Full-output:** ≈0.60  
+
+These values closely align with the **human transformation baseline (≈0.53–0.55)**, indicating that the fine-tuned model learned to perform **semantic abstraction rather than surface-level rewriting**.
+
+Both summary-level and full-output comparisons showed **statistically significant differences** relative to the base model (p < 0.05 and p < 1e-7 respectively), with **moderate effect sizes**, particularly for full outputs.
+
+### Output Quality vs Ground Truth
+
+When evaluated against human-written ground-truth outputs:
+
+- The fine-tuned model achieved **higher similarity** to ground-truth summaries and full outputs than the base model.
+- Improvements were consistent across the held-out evaluation set.
+- Increased variance reflects **less templated and more expressive outputs**, rather than brittle pattern matching.
+
+These results indicate **improved alignment with human-authored risk abstractions**, especially at the full-output level.
+
+### Structured Risk Category Extraction
+
+Significant improvements were observed in structured risk category extraction:
+
+| Metric             | Base Model | Fine-Tuned Model |
+|--------------------|------------|------------------|
+| Exact Match Rate   | ~6%        | ~35%             |
+| Precision (Micro)  | 0.00       | ~0.65            |
+| Recall (Micro)     | 0.00       | ~0.66            |
+| F1 Score (Micro)   | 0.00       | ~0.65            |
+| Jaccard Similarity | ~0.06      | ~0.55            |
+
+The base model failed to reliably extract structured categories, while the fine-tuned model consistently produced **meaningful and partially complete category-level outputs** across the evaluation set.
+
+### Prompt Compliance and Reliability
+
+Prompt compliance was evaluated explicitly:
+
+- **Base model:**  
+  Generated non-compliant outputs **100% of the time**, failing to adhere to the required structured output format.
+
+- **Fine-tuned model:**  
+  Prompt compliance errors occurred in **9 out of 207 cases (~4.3%)**.  
+  All observed failures were attributable to **context window overflow**, rather than instruction misunderstanding or format confusion.
+
+This represents a **substantial improvement in reliability and instruction adherence**.
+
+### ROUGE Scores
+
+ROUGE scores increased after fine-tuning under beam-based decoding:
+
+- ROUGE-1, ROUGE-2, and ROUGE-L scores were all higher for the fine-tuned model than the base model.
+
+However, ROUGE primarily measures **lexical overlap** and remains a secondary signal in this task. Since the model is optimized for **semantic abstraction and structured extraction**, embedding-based similarity and category-level metrics provide a more appropriate evaluation signal.
+
+### Inference Efficiency
+
+Fine-tuning introduced expected trade-offs:
+
+- Increased average latency and reduced throughput relative to the base model
+- Slightly higher memory usage during inference
+
+These trade-offs are typical for fine-tuned generative models and can be mitigated in production settings via batching, quantization, or distillation.
+
+### Summary
+
+Across held-out evaluation examples, fine-tuning resulted in:
+
+- Transformation behaviour closely aligned with human-written abstractions
+- Statistically significant improvements in output quality
+- Reliable structured risk category extraction
+- Substantial gains in prompt compliance
+
+Overall, the fine-tuned model is **significantly better suited for financial risk extraction** than the base model under beam-based decoding (temp = 0.5, num_beams = 4).
+
+
 Repository Layout
 -----------------
 
