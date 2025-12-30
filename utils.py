@@ -302,13 +302,6 @@ def merge_risks(all_risks: list) -> list:
     merged = []
     for risk in all_risks[0]:
         merged.append(risk)
-        # summary_emb = sbert_model.encode(risk['risk_summary'])
-        # similar = next((m for m in merged if util.cos_sim(summary_emb, sbert_model.encode(m['risk_summary'])) > 0.85), None)
-        # if similar:
-        #     # Merge categories (union)
-        #     similar['risk_categories'] = list(set(similar['risk_categories'] + risk['risk_categories']))
-        # else:
-        #     merged.append(risk)
     return merged
 
 # Validate and add provenance metadata
@@ -330,7 +323,7 @@ def validate_and_add_provenance(merged_risks: list, source_doc: str, query_ts: i
         "model_used": model,
         "audit_id": audit_id,
         "data_lineage": lineage,
-        "compliance_tags": ["GDPR-compliant", "Basel-III-aligned"] 
+        "compliance_tags": ["GDPR-compliant", "Basel-III-aligned"] # Example tags
     }
     integrity_hash = hashlib.sha256(json.dumps(output_json).encode()).hexdigest()
     output_json["integrity_hash"] = integrity_hash
