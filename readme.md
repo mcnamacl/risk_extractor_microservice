@@ -22,7 +22,7 @@ Badges
 Why this project exists
 -----------------------
 
-- Help automation teams extract structured risk information from
+- A microservice to extract structured risk information from
 	long financial documents (10-K, 10-Q style reports).
 - Provide provenance and integrity metadata for compliance and
 	auditability (audit id, lineage, integrity hash).
