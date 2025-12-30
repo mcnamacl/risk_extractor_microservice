@@ -47,8 +47,10 @@ Key Features
 
 ### Evaluation Setup
 
-The fine-tuned model was evaluated against the base TinyLlama (intermediate) model using **207 held-out examples** from the [training dataset](https://huggingface.co/datasets/gretelai/gretel-financial-risk-analysis-v1/blob/main/README.md). These examples were not used during fine-tuning and were reserved exclusively for evaluation.
+The fine-tuned model was evaluated against the base TinyLlama (intermediate) model using **207 held-out examples** from the [training dataset](https://huggingface.co/datasets/gretelai/gretel-financial-risk-analysis-v1/blob/main/README.md)[^1]. These examples were not used during fine-tuning and were reserved exclusively for evaluation.
 
+[^1]:Synthetic Financial Risk Analysis Dataset, Gretel-AI, 2024
+  
 All experiments were conducted on an **A100 GPU** to ensure consistent performance measurements.
 
 The task focuses on **financial risk extraction and abstraction**, where the objective is to generate **structured outputs that reflect semantic transformation**, rather than direct reproduction or paraphrasing of the source text.
