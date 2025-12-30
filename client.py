@@ -25,5 +25,21 @@ def run():
             }
             print(json.dumps(output, indent=2))
 
+            full_output = {
+                "risks": output["risks"],
+                "full_output" : [{"full_output": r.full_output} for r in response.risks],
+                "source_document": response.source_document,
+                "query_timestamp": response.query_timestamp,
+                "generation_timestamp": response.generation_timestamp,
+                "user_id": response.user_id,
+                "model_used": response.model_used,
+                "audit_id": response.audit_id,
+                "data_lineage": response.data_lineage,
+                "integrity_hash": response.integrity_hash
+            }
+
+            with ("output.json", "w+") as f:
+                json.dump(full_output, f, indent=2)
+
 if __name__ == '__main__':
     run()

@@ -32,7 +32,7 @@ class RiskExtractorServicer(risk_extractor_pb2_grpc.RiskExtractorServicer):
             print(f"Logging provenanced output: {provenanced}")
 
             # Convert to proto response
-            risks_proto = [risk_extractor_pb2.Risk(risk_categories=r['risk_categories'], risk_summary=r['risk_summary']) for r in provenanced['risks']]
+            risks_proto = [risk_extractor_pb2.Risk(risk_categories=r['risk_categories'], risk_summary=r['risk_summary'], full_output=r["full_output"]) for r in provenanced['risks']]
             return risk_extractor_pb2.ExtractRisksResponse(
                 risks=risks_proto,
                 source_document=provenanced['source_document'],

@@ -1,0 +1,188 @@
+{
+    "hardware": {
+        "GPU": "A100 GPU"
+    },
+    "prompt_compliance_errors": {
+        "base_model": 207,
+        "finetuned_model": 9
+    },
+    "baseline": {
+        "gt_input_vs_gt_summary": {
+            "total_pairs": 207,
+            "mean_similarity": 0.5339080300092122,
+            "std_similarity": 0.17226665279189599,
+            "var_similarity": 0.02967579966412364,
+            "min_similarity": 0.0898767039179802,
+            "max_similarity": 0.840668797492981
+        },
+        "gt_input_vs_gt_full": {
+            "total_pairs": 207,
+            "mean_similarity": 0.5456849492114523,
+            "std_similarity": 0.17004133466554489,
+            "var_similarity": 0.02891405549483984,
+            "min_similarity": 0.03207641839981079,
+            "max_similarity": 0.820572018623352
+        },
+        "interpretation": "Upper bound - human transformation level"
+    },
+    "transformation_analysis": {
+        "summary": {
+            "gt_input_vs_finetuned": {
+                "total_pairs": 207,
+                "mean_similarity": 0.5461857080513585,
+                "std_similarity": 0.2094754122509375,
+                "var_similarity": 0.04387994833770022,
+                "min_similarity": -0.07614560425281525,
+                "max_similarity": 0.8978332281112671
+            },
+            "gt_input_vs_base": {
+                "total_pairs": 207,
+                "mean_similarity": 0.9221480883262008,
+                "std_similarity": 0.07188286740323821,
+                "var_similarity": 0.005167146626111527,
+                "min_similarity": 0.5062394738197327,
+                "max_similarity": 0.9814804792404175
+            },
+            "baseline": 0.5339080300092122,
+            "finetuned": 0.5461857080513585,
+            "base": 0.9221480883262008
+        },
+        "full_output": {
+            "gt_input_vs_finetuned": {
+                "total_pairs": 207,
+                "mean_similarity": 0.5950567588223603,
+                "std_similarity": 0.19396531513324886,
+                "var_similarity": 0.03762254347474054,
+                "min_similarity": -0.0071648238226771355,
+                "max_similarity": 0.9739629030227661
+            },
+            "gt_input_vs_base": {
+                "total_pairs": 207,
+                "mean_similarity": 0.9221480883262008,
+                "std_similarity": 0.07188286740323821,
+                "var_similarity": 0.005167146626111527,
+                "min_similarity": 0.5062394738197327,
+                "max_similarity": 0.9814804792404175
+            },
+            "baseline": 0.5456849492114523,
+            "finetuned": 0.5950567588223603,
+            "base": 0.9221480883262008
+        }
+    },
+    "output_quality": {
+        "summary": {
+            "gt_vs_finetuned": {
+                "total_pairs": 207,
+                "mean_similarity": 0.5810623206828095,
+                "std_similarity": 0.24054013296787813,
+                "var_similarity": 0.05785955556820449,
+                "min_similarity": -0.06419283896684647,
+                "max_similarity": 1.0000001192092896
+            },
+            "gt_vs_base": {
+                "total_pairs": 207,
+                "mean_similarity": 0.5390493072173446,
+                "std_similarity": 0.1638638242660375,
+                "var_similarity": 0.026851352903090812,
+                "min_similarity": 0.10707184672355652,
+                "max_similarity": 0.8419983386993408
+            },
+            "improvement": 0.04201301346546493
+        },
+        "full_output": {
+            "gt_vs_finetuned": {
+                "total_pairs": 207,
+                "mean_similarity": 0.6388443019511043,
+                "std_similarity": 0.2067345721228584,
+                "var_similarity": 0.04273918331082134,
+                "min_similarity": -0.009569112211465836,
+                "max_similarity": 1.0
+            },
+            "gt_vs_base": {
+                "total_pairs": 207,
+                "mean_similarity": 0.555166930248196,
+                "std_similarity": 0.15988303096542084,
+                "var_similarity": 0.025562583590689716,
+                "min_similarity": 0.07757921516895294,
+                "max_similarity": 0.8375130891799927
+            },
+            "improvement": 0.08367737170290834
+        }
+    },
+    "category_extraction": {
+        "finetuned": {
+            "precision_micro": 0.6510989010989011,
+            "recall_micro": 0.6565096952908587,
+            "f1_micro": 0.6537931034482758,
+            "exact_match_rate": 0.3526570048309179,
+            "jaccard_similarity": 0.5475040257648953,
+            "tp_total": 237,
+            "fp_total": 127,
+            "fn_total": 124
+        },
+        "base": {
+            "precision_micro": 0.0,
+            "recall_micro": 0.0,
+            "f1_micro": 0.0,
+            "exact_match_rate": 0.06280193236714976,
+            "jaccard_similarity": 0.06280193236714976,
+            "tp_total": 0,
+            "fp_total": 0,
+            "fn_total": 361
+        },
+        "improvement": 0.6537931034482758
+    },
+    "statistical_tests": {
+        "summary_comparison": {
+            "t_statistic": 2.413406514490986,
+            "p_value": 0.016679224146680004,
+            "significant": true,
+            "effect_size": 0.20414049403298035
+        },
+        "full_output_comparison": {
+            "t_statistic": 5.721812135530518,
+            "p_value": 3.6797975421556286e-08,
+            "significant": true,
+            "effect_size": 0.45280066825312887
+        },
+        "rouge_summary_comparison": {
+            "base": {
+                "rouge1": 0.06986734584891643,
+                "rouge2": 0.0304600329535478,
+                "rougeL": 0.05673358919540542
+            },
+            "finetuned": {
+                "rouge1": 0.2445045222394816,
+                "rouge2": 0.12147639700751846,
+                "rougeL": 0.20322974309816835
+            }
+        }
+    },
+    "inference_efficiency": {
+        "base": {
+            "num_of_runs": 3,
+            "num_of_samples": 10,
+            "avg_latency_seconds": 13.986159722010294,
+            "latency_std": 0.12656123175613104,
+            "avg_memory_increase_mb": 0.2955729166666667,
+            "throughput_samples_per_second": 0.7149925496891619
+        },
+        "finetuned": {
+            "num_of_runs": 3,
+            "num_of_samples": 10,
+            "avg_latency_seconds": 18.59735870361328,
+            "latency_std": 0.02646528127265055,
+            "avg_memory_increase_mb": 0.16015625,
+            "throughput_samples_per_second": 0.5377107663174288
+        }
+    },
+    "assessment": {
+        "summary_significant": true,
+        "full_output_significant": true,
+        "summary_improvement": false,
+        "full_output_improvement": true,
+        "summary_transform_match": true,
+        "full_transform_match": true,
+        "category_improvement": true
+    }
+}

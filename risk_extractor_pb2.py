@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14risk_extractor.proto\x12\x0erisk_extractor\"a\n\x13\x45xtractRisksRequest\x12\r\n\x05query\x18\x01 \x01(\t\x12\x0f\n\x07user_id\x18\x02 \x01(\t\x12\x17\n\x0fquery_timestamp\x18\x03 \x01(\x03\x12\x11\n\tspace_url\x18\x04 \x01(\t\"5\n\x04Risk\x12\x17\n\x0frisk_categories\x18\x01 \x03(\t\x12\x14\n\x0crisk_summary\x18\x02 \x01(\t\"\x87\x02\n\x14\x45xtractRisksResponse\x12#\n\x05risks\x18\x01 \x03(\x0b\x32\x14.risk_extractor.Risk\x12\x17\n\x0fsource_document\x18\x02 \x01(\t\x12\x17\n\x0fquery_timestamp\x18\x03 \x01(\x03\x12\x1c\n\x14generation_timestamp\x18\x04 \x01(\x03\x12\x0f\n\x07user_id\x18\x05 \x01(\t\x12\x12\n\nmodel_used\x18\x06 \x01(\t\x12\x10\n\x08\x61udit_id\x18\x07 \x01(\t\x12\x14\n\x0c\x64\x61ta_lineage\x18\x08 \x01(\t\x12\x16\n\x0eintegrity_hash\x18\t \x01(\t\x12\x15\n\rerror_message\x18\n \x01(\t2l\n\rRiskExtractor\x12[\n\x0c\x45xtractRisks\x12#.risk_extractor.ExtractRisksRequest\x1a$.risk_extractor.ExtractRisksResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14risk_extractor.proto\x12\x0erisk_extractor\"a\n\x13\x45xtractRisksRequest\x12\r\n\x05query\x18\x01 \x01(\t\x12\x0f\n\x07user_id\x18\x02 \x01(\t\x12\x17\n\x0fquery_timestamp\x18\x03 \x01(\x03\x12\x11\n\tspace_url\x18\x04 \x01(\t\"K\n\x04Risk\x12\x17\n\x0frisk_categories\x18\x01 \x03(\t\x12\x14\n\x0crisk_summary\x18\x02 \x01(\t\x12\x14\n\x0cmodel_output\x18\x03 \x01(\t\"\x87\x02\n\x14\x45xtractRisksResponse\x12#\n\x05risks\x18\x01 \x03(\x0b\x32\x14.risk_extractor.Risk\x12\x17\n\x0fsource_document\x18\x02 \x01(\t\x12\x17\n\x0fquery_timestamp\x18\x03 \x01(\x03\x12\x1c\n\x14generation_timestamp\x18\x04 \x01(\x03\x12\x0f\n\x07user_id\x18\x05 \x01(\t\x12\x12\n\nmodel_used\x18\x06 \x01(\t\x12\x10\n\x08\x61udit_id\x18\x07 \x01(\t\x12\x14\n\x0c\x64\x61ta_lineage\x18\x08 \x01(\t\x12\x16\n\x0eintegrity_hash\x18\t \x01(\t\x12\x15\n\rerror_message\x18\n \x01(\t2l\n\rRiskExtractor\x12[\n\x0c\x45xtractRisks\x12#.risk_extractor.ExtractRisksRequest\x1a$.risk_extractor.ExtractRisksResponse\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -24,9 +24,9 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _globals['_EXTRACTRISKSREQUEST']._serialized_start=40
   _globals['_EXTRACTRISKSREQUEST']._serialized_end=137
   _globals['_RISK']._serialized_start=139
-  _globals['_RISK']._serialized_end=192
-  _globals['_EXTRACTRISKSRESPONSE']._serialized_start=195
-  _globals['_EXTRACTRISKSRESPONSE']._serialized_end=458
-  _globals['_RISKEXTRACTOR']._serialized_start=460
-  _globals['_RISKEXTRACTOR']._serialized_end=568
+  _globals['_RISK']._serialized_end=214
+  _globals['_EXTRACTRISKSRESPONSE']._serialized_start=217
+  _globals['_EXTRACTRISKSRESPONSE']._serialized_end=480
+  _globals['_RISKEXTRACTOR']._serialized_start=482
+  _globals['_RISKEXTRACTOR']._serialized_end=590
 # @@protoc_insertion_point(module_scope)

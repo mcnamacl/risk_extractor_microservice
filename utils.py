@@ -269,11 +269,15 @@ def parse_output(decoded: str) -> list:
         risks.append({
             "risk_categories": categories,
             "risk_summary": summary,
-            "output": output_part
+            "full_output": decoded
         })
     except (json.JSONDecodeError, ValueError) as e:
         print(f"Parsing error: {e} for output: {decoded}")
-        return []  
+        risks.append({
+            "risk_categories": "[INVALID]",
+            "risk_summary": "INVALID",
+            "full_output": decoded
+        }) 
     
     return risks
 
@@ -308,7 +312,7 @@ def merge_risks(all_risks: list) -> list:
 def validate_and_add_provenance(merged_risks: list, source_doc: str, query_ts: int, user_id: str, model: str):
     print(f"Validating merged risks: {merged_risks}")
     # Validate JSON (simple schema check)
-    if not all(isinstance(r, dict) and 'risk_categories' in r and 'risk_summary' in r and "output" in r for r in merged_risks):
+    if not all(isinstance(r, dict) and 'risk_categories' in r and 'risk_summary' in r and "full_output" in r for r in merged_risks):
         raise ValueError("Invalid risk format")
     
     generation_ts = int(time.time())
@@ -323,7 +327,7 @@ def validate_and_add_provenance(merged_risks: list, source_doc: str, query_ts: i
         "model_used": model,
         "audit_id": audit_id,
         "data_lineage": lineage,
-        "compliance_tags": ["GDPR-compliant", "Basel-III-aligned"] # Example tags
+        "compliance_tags": ["GDPR-compliant", "Basel-III-aligned"] 
     }
     integrity_hash = hashlib.sha256(json.dumps(output_json).encode()).hexdigest()
     output_json["integrity_hash"] = integrity_hash
