@@ -231,7 +231,6 @@ def extract_risks_from_chunks(chunks: list, space_url: str) -> list:
         
         # Process batch through remote HF Space
         decoded_outputs = batch_generate(batch, space_url=space_url)
-        print(f"Decoded outputs: {decoded_outputs}")
 
         # Parse outputs for risks
         for decoded in decoded_outputs:
