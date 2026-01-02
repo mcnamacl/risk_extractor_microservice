@@ -133,17 +133,29 @@
         "improvement": 0.6537931034482758
     },
     "statistical_tests": {
-        "summary_comparison": {
+        "summary_comparison_ttest": {
             "t_statistic": 2.413406514490986,
             "p_value": 0.016679224146680004,
             "significant": true,
             "effect_size": 0.20414049403298035
         },
-        "full_output_comparison": {
+        "full_output_comparison_ttest": {
             "t_statistic": 5.721812135530518,
             "p_value": 3.6797975421556286e-08,
             "significant": true,
             "effect_size": 0.45280066825312887
+        },
+        "summary_comparison_wilcoxon": {
+            "wilcoxon_statistic": 7868.0,
+            "p_value": 0.0007898727536206737,
+            "significant": true,
+            "effect_size": 0.23328032790094205
+        },
+        "full_output_comparison_wilcoxon": {
+            "wilcoxon_statistic": 4784.0,
+            "p_value": 1.3150921229205e-10,
+            "significant": true,
+            "effect_size": 0.4543455355062063
         },
         "rouge_summary_comparison": {
             "base": {
@@ -162,18 +174,18 @@
         "base": {
             "num_of_runs": 3,
             "num_of_samples": 10,
-            "avg_latency_seconds": 13.986159722010294,
-            "latency_std": 0.12656123175613104,
-            "avg_memory_increase_mb": 0.2955729166666667,
-            "throughput_samples_per_second": 0.7149925496891619
+            "avg_latency_seconds": 14.089123328526815,
+            "latency_std": 0.017709560405366913,
+            "avg_gpu_memory_increase_mb": 0.0,
+            "throughput_samples_per_second": 0.7097673692551614
         },
         "finetuned": {
             "num_of_runs": 3,
             "num_of_samples": 10,
-            "avg_latency_seconds": 18.59735870361328,
-            "latency_std": 0.02646528127265055,
-            "avg_memory_increase_mb": 0.16015625,
-            "throughput_samples_per_second": 0.5377107663174288
+            "avg_latency_seconds": 18.62521020571391,
+            "latency_std": 0.011459531670873633,
+            "avg_gpu_memory_increase_mb": 0.0,
+            "throughput_samples_per_second": 0.5369066920346576
         }
     },
     "assessment": {

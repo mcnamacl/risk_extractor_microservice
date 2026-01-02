@@ -224,8 +224,6 @@ def chunk_text(text: str, max_tokens: int = 1500, top_k_clusters: int = 4) -> li
 def extract_risks_from_chunks(chunks: list, space_url: str) -> list:
     BATCH_SIZE = 4
     all_risks = []
-
-    print(f"Full set of chunks: {chunks}")
     
     for i in range(0, len(chunks), BATCH_SIZE):
         batch = chunks[i:i + BATCH_SIZE]
