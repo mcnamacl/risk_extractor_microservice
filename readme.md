@@ -363,3 +363,7 @@ Next steps
 - Add `CONTRIBUTING.md` and `docs/` materials if you want to grow
 	the project documentation.
 
+**Gen AI Usage Disclosure**
+This readme and code scaffolding for this repo was created in part using VSCode Copilot and GPT-5. All content has been manually reviewed, modified as necessary, and validated by the author.
+
+
