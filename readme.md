@@ -72,7 +72,7 @@ On November 22, 2022, the Company announced that its Board of Directors authoriz
 
 ### Metrics and Methodology
 
-Multiple complementary metrics were used to capture different aspects of model behaviour:
+Multiple complementary metrics were used to capture different aspects of model behaviour. Statistical tests are exploratory; no correction applied as metrics are not independent.
 
 - **Cosine similarity (embedding-based)**  
   Used to quantify the degree of transformation between the input and the generated output.  
@@ -167,7 +167,7 @@ Prompt compliance was evaluated explicitly:
   Prompt compliance errors occurred in **9 out of 207 cases (~4.3%)**.  
   All 9 failures were associated with **context window limitations**, rather than systematic instruction misinterpretation.
 
-Fine-tuning substantially reduced format-related failures, though it did not eliminate them entirely.
+Fine-tuning substantially reduced format-related failures, though it did not eliminate them entirely. 
 
 ---
 

@@ -23,7 +23,7 @@
             "min_similarity": 0.03207641839981079,
             "max_similarity": 0.820572018623352
         },
-        "interpretation": "Upper bound - human transformation level"
+        "interpretation": "Upper bound - GT transformation level"
     },
     "transformation_analysis": {
         "summary": {
