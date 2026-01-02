@@ -16,7 +16,7 @@ results with provenance metadata.
 Badges
 -------
 
-- **Status**: Work in progress
+- **Status**: Prototype
 - **Language**: Python
 
 Why this project exists
