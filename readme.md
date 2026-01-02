@@ -47,15 +47,23 @@ Key Features
 
 ### Evaluation Setup
 
-The fine-tuned model was evaluated against the base TinyLlama (intermediate) model using **207 held-out examples** from the [training dataset](https://huggingface.co/datasets/gretelai/gretel-financial-risk-analysis-v1/blob/main/README.md)[^1]. These examples were not used during fine-tuning and were reserved exclusively for evaluation.
+The fine-tuned model was evaluated against the base [TinyLlama-1.1B model](https://huggingface.co/TinyLlama/TinyLlama-1.1B-intermediate-step-1431k-3T) using **207 held-out examples** from the source dataset [training dataset](https://huggingface.co/datasets/gretelai/gretel-financial-risk-analysis-v1/blob/main/README.md)[^1]. These examples were not used during fine-tuning and were reserved exclusively for evaluation.
 
 [^1]:Synthetic Financial Risk Analysis Dataset, Gretel-AI, 2024
   
 All experiments were conducted on an **A100 GPU** to ensure consistent performance measurements.
 
-The task focuses on **financial risk extraction and abstraction**, where the objective is to generate **structured outputs that reflect semantic transformation**, rather than direct reproduction or paraphrasing of the source text.
+**Prompt:**
+Extract financial risks. Output as [CATEGORIES] | SUMMARY output: 
 
-Model inference settings: top_p=0.95, temperature=0.5, num_beams=4, repetition_penalty=1.5
+**Example input from evaluation dataset:**
+"Item 8.01. Other Events.
+
+On November 22, 2022, the Company announced that its Board of Directors authorized the repurchase of up to $1 billion of the Company's outstanding common shares, which includes the $1.1 billion remaining authorization amount under the Company's prior repurchase program. The new repurchase authorization does not have a specific expiration date. This decision reflects the Company's ongoing commitment to optimizing its capital structure and delivering value to shareholders....."	
+
+**Example corresponding expected output from the evaluation dataset (Ground Truth, GT):**
+['LIQUIDITY', 'DEBT'] | $1B share repurchase authorization may lead to increased debt exposure
+
 
 ### Metrics and Methodology
 
@@ -63,94 +71,141 @@ Multiple complementary metrics were used to capture different aspects of model b
 
 - **Cosine similarity (embedding-based)**  
   Used to quantify the degree of transformation between the input and the generated output.  
-  Lower similarity suggests greater abstraction, though this metric alone does not capture correctness.
+  Lower similarity indicates greater abstraction, though this metric alone does not capture semantic correctness or completeness.
 
 - **Ground-truth similarity**  
-  Generated outputs were compared against synthetic financial risk analysis text as ground-truth summaries and full outputs.
+  Generated outputs were compared against synthetic financial risk analysis text at both summary and full-output (both the risk categories and the summary) levels.
 
 - **Structured category extraction metrics**  
   Precision, recall, F1 (micro), Jaccard similarity, and exact match rate were computed for extracted risk categories.
 
 - **Statistical significance testing**  
-  Paired t-tests and effect sizes were used to assess whether observed differences were unlikely to be due to random variation.
+  Paired t-tests and Wilcoxon signed-rank tests were used, alongside effect sizes, to assess whether observed differences were unlikely to be due to random variation.
 
 - **Inference efficiency**  
-  Latency, throughput, and memory usage were measured to characterize performance trade-offs relevant to deployment.
+  Latency, throughput, and GPU memory usage were measured to characterise deployment-relevant trade-offs.
+
+---
 
 ### Transformation Quality
 
-The base model exhibited **high similarity to the input text (≈0.92)**, indicating a strong tendency toward reproduction or light paraphrasing.
+The base model exhibited **very high similarity to the input text**, indicating a strong tendency toward reproduction:
 
-The fine-tuned model produced outputs with **lower similarity to the input**:
+- **Summary-level:** ≈ 0.92  
+- **Full-output:** ≈ 0.92  
 
-- **Summary-level:** ≈0.55  
-- **Full-output:** ≈0.60  
+The fine-tuned model produced substantially lower input–output similarity:
 
-These values are **closer to the human transformation baseline (≈0.53-0.55)**, suggesting that the fine-tuned model more frequently departs from surface-level rewriting. However, similarity alone does not guarantee that the transformations are semantically correct or complete.
+- **Summary-level:** **0.55** (mean = 0.546)  
+- **Full-output:** **0.60** (mean = 0.595)  
 
-Differences relative to the base model were statistically significant for both summary-level and full-output comparisons, with **larger effects observed for full outputs**.
+These values are close to the **GT transformation baseline**:
+
+- GT input → summary: **0.53**  
+- GT input → full output: **0.55**
+
+This suggests that the fine-tuned model more frequently departs from surface-level rewriting and operates closer to GT abstraction. Variance increased relative to the base model, reflecting less uniform transformation behaviour.
+
+Differences between the base and fine-tuned models were **statistically significant**:
+
+- **Summary-level:**  
+  - t-test *p* = 0.0167, small effect size (Cohen's dz ≈ 0.20)  
+  - Wilcoxon *p* < 0.001, small effect size (Wilcoxon r ≈ 0.23)
+- **Full-output:**  
+  - t-test *p* < 1e-7, moderate effect size (Cohen's dz ≈ 0.45)  
+  - Wilcoxon *p* < 1e-10, moderate effect size (Wilcoxon r ≈ 0.45)
+
+---
 
 ### Output Quality vs Ground Truth
 
-When evaluated against human-written ground-truth outputs:
+When evaluated against ground-truth outputs:
 
-- The fine-tuned model showed **higher average similarity** to ground-truth summaries and full outputs than the base model.
-- Improvements were observed across the evaluation set, though variance increased, indicating **less uniform output structure**.
+- **Summary-level similarity**
+  - Base model: **0.54**
+  - Fine-tuned model: **0.58**
+  - Mean improvement: **+0.04**
 
-These results suggest improved alignment with reference outputs on average, while also reflecting greater diversity in generated responses.
+- **Full-output similarity**
+  - Base model: **0.56**
+  - Fine-tuned model: **0.64**
+  - Mean improvement: **+0.08**
+
+Improvements were more pronounced for full outputs and were statistically significant. Increased variance for the fine-tuned model indicates greater diversity in generated structure and content.
+
+---
 
 ### Structured Risk Category Extraction
 
-Improvements were observed in structured risk category extraction:
+Substantial improvements were observed in structured risk category extraction:
 
 | Metric             | Base Model | Fine-Tuned Model |
 |--------------------|------------|------------------|
-| Exact Match Rate   | ~6%        | ~35%             |
-| Precision (Micro)  | 0.00       | ~0.65            |
-| Recall (Micro)     | 0.00       | ~0.66            |
-| F1 Score (Micro)   | 0.00       | ~0.65            |
+| Exact Match Rate   | ~6.3%      | ~35.3%           |
+| Precision (Micro)  | 0.00       | 0.65             |
+| Recall (Micro)     | 0.00       | 0.66             |
+| F1 Score (Micro)   | 0.00       | 0.65             |
 | Jaccard Similarity | ~0.06      | ~0.55            |
 
-The base model almost never produced valid structured outputs. The fine-tuned model generated structured categories more frequently, although partial matches and omissions remain common, as reflected in the gap between precision, recall, and exact match rate.
+The base model produced no true positives across the evaluation set, while the fine-tuned model generated meaningful structured outputs in the majority of cases. Partial matches and omissions remain common, as reflected in the gap between exact match rate and micro-averaged scores.
+
+---
 
 ### Prompt Compliance and Reliability
 
 Prompt compliance was evaluated explicitly:
 
 - **Base model:**  
-  Produced non-compliant outputs in nearly all cases, typically failing to follow the required structured format.
+  Failed to follow the required structured format in **all 207 cases**.
 
 - **Fine-tuned model:**  
   Prompt compliance errors occurred in **9 out of 207 cases (~4.3%)**.  
-  Observed failures were primarily associated with **context window limitations**, rather than systematic instruction misinterpretation.
+  All 9 failures were associated with **context window limitations**, rather than systematic instruction misinterpretation.
 
-While not eliminating failures entirely, fine-tuning substantially reduced format-related errors.
+Fine-tuning substantially reduced format-related failures, though it did not eliminate them entirely.
+
+---
 
 ### ROUGE Scores
 
-ROUGE scores were higher for the fine-tuned model under beam-based decoding (R1: 0.25 vs. 0.13, R2: 0.12 vs. 0.02, RL: 0.2 vs. 0.1).
+ROUGE scores were higher for the fine-tuned model under beam-based decoding:
 
-However, ROUGE primarily measures **lexical overlap** and does not directly reflect semantic correctness or structural validity. Given the emphasis on abstraction and structured extraction, ROUGE is treated as a **secondary diagnostic metric**, rather than a primary measure of task performance.
+- **ROUGE-1:** 0.24 (vs. 0.07)
+- **ROUGE-2:** 0.12 (vs. 0.03)
+- **ROUGE-L:** 0.20 (vs. 0.06)
+
+However, ROUGE primarily measures **lexical overlap** and does not directly reflect semantic correctness, abstraction quality, or structural validity. It is therefore treated as a **secondary analysis metric**.
+
+---
 
 ### Inference Efficiency
 
-Fine-tuning introduced expected trade-offs:
+Fine-tuning introduced expected performance trade-offs:
 
-- Increased average latency and reduced throughput relative to the base model
-- Modest changes in memory usage during inference
+- **Average latency**
+  - Base model: ~14.1 s
+  - Fine-tuned model: ~18.6 s
 
-These differences reflect the added complexity of the fine-tuned model and may be relevant when considering deployment constraints.
+- **Throughput**
+  - Base model: ~0.71 samples/s
+  - Fine-tuned model: ~0.54 samples/s
+
+- **GPU memory usage**
+  - No measurable increase during inference for either model
+
+---
 
 ### Summary
 
 Across the held-out evaluation set, fine-tuning was associated with:
 
-- Reduced input-output similarity, closer to that observed in human-written references
-- Statistically significant differences in output similarity relative to the base model
-- Higher rates of structured category extraction
-- Fewer prompt-format violations
+- Reduced input–output similarity, closely matching GT transformation levels
+- Statistically significant differences in abstraction behaviour relative to the base model
+- Meaningful improvements in structured risk category extraction
+- A large reduction in prompt-format violations
+- Moderate trade-offs in inference latency and throughput
 
-Overall, the results indicate that the fine-tuned model is **better aligned with the intended abstraction and extraction task** than the base model under beam-based decoding (temp = 0.5, num_beams = 4), while still exhibiting limitations in consistency and completeness.
+Overall, the fine-tuned model is **better aligned with the intended abstraction and extraction task** than the base model under beam-based decoding, while still exhibiting limitations in consistency, completeness, and efficiency.
 
 Repository Layout
 -----------------
