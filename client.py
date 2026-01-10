@@ -38,8 +38,6 @@ def run():
                 "integrity_hash": response.integrity_hash
             }
 
-            with ("output.json", "w+") as f:
-                json.dump(full_output, f, indent=2)
 
 if __name__ == '__main__':
     run()
